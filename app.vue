@@ -9,7 +9,10 @@ const { data, pending } = await useFetch<{
   feed: GtfsRTBindings.transit_realtime.FeedMessage
 }>("/api/gtfs-realtime/rapid-bus-kl")
 
-console.log(data.value)
+// Fetch static info every 7 days
+useFetch("/api/staticInfo/rapid-bus-kl", {
+  method: "POST",
+})
 </script>
 
 <template>

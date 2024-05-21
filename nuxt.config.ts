@@ -1,6 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  runtimeConfig: {
+    mongoString: process.env.MONGO_STRING,
+  },
   tailwindcss: {
     exposeConfig: true,
     viewer: true,
@@ -15,5 +18,10 @@ export default defineNuxtConfig({
     "primevue/resources/themes/aura-light-green/theme.css",
     "primeicons/primeicons.css",
   ],
-  modules: ["nuxt3-leaflet", "@nuxtjs/tailwindcss", "nuxt-primevue", "nuxt-icon"],
+  modules: [
+    "nuxt3-leaflet",
+    "@nuxtjs/tailwindcss",
+    "nuxt-primevue",
+    "nuxt-icon",
+  ],
 })
