@@ -16,6 +16,7 @@
     "mongodb": "^6.6.2",
     "nuxt": "^3.11.2",
     "nuxt-icon": "^0.6.10",
+    "nuxt-mongoose": "^1.0.6",
     "nuxt-primevue": "^0.3.1",
     "nuxt3-leaflet": "^1.0.12",
     "primeicons": "^7.0.0",

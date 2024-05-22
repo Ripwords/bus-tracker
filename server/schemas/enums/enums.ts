@@ -1,5 +1,3 @@
-import { z } from "zod"
-
 export const CATEGORIES = [
   "rapid-bus-penang",
   "rapid-bus-kl",
@@ -18,7 +16,3 @@ export const staticInfoCategory = [
   "stops",
   "trips",
 ] as const
-
-export const staticInfoSchema = z.object({
-  category: z.enum(CATEGORIES),
-})

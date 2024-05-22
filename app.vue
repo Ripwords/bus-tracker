@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { LatLngExpression } from "leaflet"
 import GtfsRTBindings from "gtfs-realtime-bindings"
+import type { ObjectId } from "mongodb"
 
 const sidebar = ref(false)
 const search = ref("")
@@ -10,8 +11,18 @@ const { data, pending } = await useFetch<{
 }>("/api/gtfs-realtime/rapid-bus-kl")
 
 // Fetch static info every 7 days
-useFetch("/api/staticInfo/rapid-bus-kl", {
-  method: "POST",
+onMounted(async () => {
+  const routeShape = await $fetch<{ row: string }[]>(
+    "/api/staticInfo/rapid-bus-kl/T850002",
+    {
+      method: "GET",
+    }
+  )
+  console.log(routeShape)
+  $fetch("/api/staticInfo/rapid-bus-kl/upsert", {
+    method: "POST",
+    dedupe: "defer",
+  })
 })
 </script>
 
@@ -20,10 +31,11 @@ useFetch("/api/staticInfo/rapid-bus-kl", {
     <Toolbar>
       <template #start>
         <Avatar
-          image="/img/icon.png"
           size="large"
           shape="circle"
-        />
+        >
+          <Icon name="mdi:bus" />
+        </Avatar>
       </template>
       <template #center>
         <h1 class="mr-2 bold">Bus Tracker</h1>
