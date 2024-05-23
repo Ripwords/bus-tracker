@@ -13,7 +13,7 @@ const { data, pending } = await useFetch<{
 // Fetch static info every 7 days
 onMounted(async () => {
   const routeShape = await $fetch<{ row: string }[]>(
-    "/api/staticInfo/rapid-bus-kl/T850002",
+    "/api/staticInfo/rapid-bus-kl/shape/T850002",
     {
       method: "GET",
     }

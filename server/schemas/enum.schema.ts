@@ -1,12 +1,14 @@
-export const CATEGORIES = [
+import { z } from "zod"
+
+export const CATEGORIES = z.enum([
   "rapid-bus-penang",
   "rapid-bus-kl",
   "rapid-bus-kuantan",
   "rapid-bus-mrtfeeder",
   "rapid-rail-kl",
-] as const
+])
 
-export const staticInfoCategory = [
+export const staticInfoCategory = z.enum([
   "agency",
   "calendar",
   "frequencies",
@@ -15,4 +17,4 @@ export const staticInfoCategory = [
   "stop_times",
   "stops",
   "trips",
-] as const
+])

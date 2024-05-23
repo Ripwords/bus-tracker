@@ -1,16 +1,16 @@
 import JSZip from "jszip"
-import { dataSchema, lastUpdateSchema } from "~/server/schemas/prasarana.schema"
+import {
+  dataSchema,
+  dataSchemaType,
+  lastUpdateSchema,
+  lastUpdateSchemaType,
+} from "~/server/schemas/prasarana.schema"
 import { model } from "mongoose"
-import { z } from "zod"
-import { CATEGORIES } from "~/server/schemas/enums/enums"
-
-const routeSchema = z.object({
-  category: z.enum(CATEGORIES),
-})
+import { categorySchema } from "~/server/schemas/route.schema"
 
 export default defineEventHandler(async (event) => {
-  const params = await getValidatedRouterParams(event, routeSchema.parse)
-  const lastUpdateModel = model(
+  const params = await getValidatedRouterParams(event, categorySchema.parse)
+  const lastUpdateModel = model<lastUpdateSchemaType>(
     `${params.category}_lastUpdate`,
     lastUpdateSchema
   )
@@ -42,8 +42,11 @@ export default defineEventHandler(async (event) => {
   unzippedFile.forEach(async (_, file) => {
     const fileData = await file.async("string")
     const category = file.name.split(".")[0]
-    const dataModelObj = model(`${params.category}_${category}`, dataSchema)
-    const headerItem = new dataModelObj({
+    const dataModelObj = model<dataSchemaType>(
+      `${params.category}_${category}`,
+      dataSchema
+    )
+    const headerItem = new dataModelObj<dataSchemaType>({
       row: fileData.split("\n")[0],
       index: 0,
     })
@@ -52,7 +55,7 @@ export default defineEventHandler(async (event) => {
       .slice(1)
       .filter((row) => row !== "")
       .map((row, index) => {
-        return new dataModelObj({
+        return new dataModelObj<dataSchemaType>({
           row,
           index: index + 1,
         })

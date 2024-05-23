@@ -1,17 +1,10 @@
-import { ObjectId } from "mongodb"
-import { staticInfoCategory } from "./enums/enums"
 import { Schema } from "mongoose"
 
-interface ICategory {
-  name: (typeof staticInfoCategory)[number]
-  data: {
-    _id: ObjectId
-    index: number
-    row: string
-  }[]
+export type dataSchemaType = {
+  row: string
+  index: number
 }
-
-export const dataSchema = new Schema<ICategory["data"][0]>({
+export const dataSchema = new Schema<dataSchemaType>({
   row: {
     type: String,
     required: true,
@@ -23,7 +16,10 @@ export const dataSchema = new Schema<ICategory["data"][0]>({
   },
 })
 
-export const lastUpdateSchema = new Schema(
+export type lastUpdateSchemaType = {
+  lastUpdate: Date
+}
+export const lastUpdateSchema = new Schema<lastUpdateSchemaType>(
   {
     lastUpdate: {
       type: Date,

@@ -1,13 +1,8 @@
 import GtfsRTBindings from "gtfs-realtime-bindings"
-import { z } from "zod"
-import { CATEGORIES } from "~/server/schemas/enums/enums"
-
-const routeSchema = z.object({
-  category: z.enum(CATEGORIES),
-})
+import { categorySchema } from "~/server/schemas/route.schema"
 
 export default defineEventHandler(async (event) => {
-  const params = await getValidatedRouterParams(event, routeSchema.parse)
+  const params = await getValidatedRouterParams(event, categorySchema.parse)
   const URL =
     "https://api.data.gov.my/gtfs-realtime/vehicle-position/prasarana?category=" +
     params.category
