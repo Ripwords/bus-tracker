@@ -7,23 +7,29 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "module": "bun x nuxi@latest module",
+    "lint": "eslint --fix"
   },
   "dependencies": {
+    "@nuxt/eslint": "^0.3.13",
     "@nuxtjs/tailwindcss": "^6.12.0",
+    "@primevue/themes": "4.0.0-rc.2",
     "gtfs-realtime-bindings": "^1.1.1",
     "jszip": "^3.10.1",
     "mongodb": "^6.6.2",
-    "nuxt": "^3.11.2",
+    "nuxt": "^3.12.2",
     "nuxt-icon": "^0.6.10",
     "nuxt-mongoose": "^1.0.6",
-    "nuxt-primevue": "^0.3.1",
     "nuxt3-leaflet": "^1.0.12",
     "primeicons": "^7.0.0",
-    "primevue": "^3.52.0",
+    "primevue": "4.0.0-rc.2",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@primevue/nuxt-module": "4.0.0-rc.2"
   },
   "trustedDependencies": [
     "protobufjs"

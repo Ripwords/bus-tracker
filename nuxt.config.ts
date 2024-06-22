@@ -1,20 +1,22 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  tailwindcss: {
-    exposeConfig: true,
-    viewer: true,
+  devtools: {
+    enabled: true,
+    timeline: {
+      enabled: true,
+    },
+  },
+  experimental: {
+    typedPages: true,
+  },
+  future: {
+    compatibilityVersion: 4,
   },
   primevue: {
-    directives: {
-      include: ["FocusTrap"],
+    importTheme: {
+      from: "@/utils/theme",
     },
-    cssLayerOrder: "tailwind-base, primevue, tailwind-utilities",
   },
-  css: [
-    "primevue/resources/themes/aura-light-green/theme.css",
-    "primeicons/primeicons.css",
-  ],
   mongoose: {
     options: {
       dbName: "prasarana",
@@ -23,8 +25,9 @@ export default defineNuxtConfig({
   modules: [
     "nuxt3-leaflet",
     "@nuxtjs/tailwindcss",
-    "nuxt-primevue",
+    "@primevue/nuxt-module",
     "nuxt-icon",
     "nuxt-mongoose",
+    "@nuxt/eslint",
   ],
 })

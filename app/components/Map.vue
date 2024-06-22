@@ -16,7 +16,7 @@ const props = defineProps({
 const mapShow = ref(false)
 
 const url = "https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
-const subdomains: String | String[] | undefined = ["mt0", "mt1", "mt2", "mt3"]
+const subdomains: string | string[] | undefined = ["mt0", "mt1", "mt2", "mt3"]
 
 onMounted(() => {
   setTimeout(() => {
@@ -43,14 +43,14 @@ onMounted(() => {
         <LTileLayer
           :url="url"
           :subdomains="subdomains"
-          :minZoom="2"
-          :noWrap="true"
-          :maxZoom="22"
+          :min-zoom="2"
+          :no-wrap="true"
+          :max-zoom="22"
         />
         <LMarker
           v-for="bus in props.busLocations"
-          :latLng="bus.coord"
           :key="bus.id"
+          :lat-lng="bus.coord"
         />
       </LMap>
     </div>

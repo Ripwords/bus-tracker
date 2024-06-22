@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import type { LatLngExpression } from "leaflet"
-import GtfsRTBindings from "gtfs-realtime-bindings"
-import type { ObjectId } from "mongodb"
+import type GtfsRTBindings from "gtfs-realtime-bindings"
 
 const sidebar = ref(false)
 const search = ref("")
 
-const { data, pending } = await useFetch<{
+const { data, status } = await useFetch<{
   feed: GtfsRTBindings.transit_realtime.FeedMessage
 }>("/api/gtfs-realtime/rapid-bus-kl")
 
@@ -42,7 +41,7 @@ onMounted(async () => {
       </template>
       <template #end>
         <!-- Logged In -->
-        <LazySidebar v-model:visible="sidebar">
+        <Drawer v-model:visible="sidebar">
           <template #container>
             <Toolbar>
               <template #center>
@@ -61,7 +60,7 @@ onMounted(async () => {
               />
             </div>
           </template>
-        </LazySidebar>
+        </Drawer>
 
         <Button @click="sidebar = !sidebar">
           <Icon name="ph:list-bold" />
@@ -70,11 +69,14 @@ onMounted(async () => {
     </Toolbar>
 
     <LazyMap
-      v-if="!pending"
+      v-if="!(status === 'pending')"
       :bus-locations="data?.feed.entity?.map((bus) =>( {
           id: bus.id,
           name: bus.vehicle?.trip?.routeId ?? 'Unknown',
-          coord: [bus.vehicle?.position?.latitude, bus.vehicle?.position?.longitude] as LatLngExpression
+          coord: [
+            bus.vehicle?.position?.latitude, 
+            bus.vehicle?.position?.longitude
+          ] as LatLngExpression
       }))"
     />
   </div>

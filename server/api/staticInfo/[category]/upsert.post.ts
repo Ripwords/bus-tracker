@@ -1,12 +1,14 @@
 import JSZip from "jszip"
+import type {
+  dataSchemaType,
+  lastUpdateSchemaType,
+} from "@@/server/schemas/prasarana.schema"
 import {
   dataSchema,
-  dataSchemaType,
   lastUpdateSchema,
-  lastUpdateSchemaType,
-} from "~/server/schemas/prasarana.schema"
+} from "@@/server/schemas/prasarana.schema"
 import { model } from "mongoose"
-import { categorySchema } from "~/server/schemas/route.schema"
+import { categorySchema } from "@@/server/schemas/route.schema"
 
 export default defineEventHandler(async (event) => {
   const params = await getValidatedRouterParams(event, categorySchema.parse)

@@ -1,6 +1,6 @@
 import { model } from "mongoose"
-import { dataSchema } from "~/server/schemas/prasarana.schema"
-import { shapeSchema } from "~/server/schemas/route.schema"
+import { dataSchema } from "@@/server/schemas/prasarana.schema"
+import { shapeSchema } from "@@/server/schemas/route.schema"
 
 export default defineEventHandler(async (event) => {
   const params = await getValidatedRouterParams(event, shapeSchema.parse)
