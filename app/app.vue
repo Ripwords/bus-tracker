@@ -1,28 +1,19 @@
 <script lang="ts" setup>
-import type { LatLngExpression } from "leaflet"
 import type GtfsRTBindings from "gtfs-realtime-bindings"
 
 const sidebar = ref(false)
 const search = ref("")
 
-const { data, status } = await useFetch<{
+const { data } = await useFetch<{
   feed: GtfsRTBindings.transit_realtime.FeedMessage
 }>("/api/gtfs-realtime/rapid-bus-kl")
 
-// Fetch static info every 7 days
-onMounted(async () => {
-  const routeShape = await $fetch<{ row: string }[]>(
-    "/api/staticInfo/rapid-bus-kl/shape/T850002",
-    {
-      method: "GET",
-    }
-  )
-  console.log(routeShape)
-  $fetch("/api/staticInfo/rapid-bus-kl/upsert", {
-    method: "POST",
-    dedupe: "defer",
-  })
-})
+const { data: routeShape, status: routeStatus } = await useFetch(
+  "/api/staticInfo/rapid-bus-kl/shape/U222002",
+  {
+    method: "GET",
+  }
+)
 </script>
 
 <template>
@@ -68,7 +59,7 @@ onMounted(async () => {
       </template>
     </Toolbar>
 
-    <LazyMap
+    <!-- <LazyBusMap
       v-if="!(status === 'pending')"
       :bus-locations="data?.feed.entity?.map((bus) =>( {
           id: bus.id,
@@ -78,6 +69,10 @@ onMounted(async () => {
             bus.vehicle?.position?.longitude
           ] as LatLngExpression
       }))"
+    /> -->
+    <BusRouteMap
+      v-if="routeStatus !== 'pending'"
+      :path="routeShape!.shape"
     />
   </div>
 </template>
