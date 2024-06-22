@@ -24,11 +24,10 @@ export default defineEventHandler(async (event) => {
     const diffHours = Math.ceil(diff / (1000 * 60 * 60))
     if (diffHours < 168) {
       // Do not fetch if the data is less than 7 days old
-      // console.log("Data is less than 7 days old")
-      return setResponseStatus(event, 204, "Data is less than 7 days old")
+      setResponseStatus(event, 204, "Data is less than 7 days old")
+      return
     }
-    // console.log("Data is more than 7 days old")
-    return setResponseStatus(event, 200, "Data upserted successfully")
+    setResponseStatus(event, 200, "Data upserted successfully")
   }
 
   const URL =
