@@ -1,17 +1,22 @@
 <script lang="ts" setup>
 import type GtfsRTBindings from "gtfs-realtime-bindings"
+import type { LatLngExpression } from "leaflet"
 
 const sidebar = ref(false)
+const selectedService = ref<Services>("rapid-bus-kl")
 const search = ref("")
 
-const { data } = await useFetch<{
+const { data: busData, status: busStatus } = await useFetch<{
   feed: GtfsRTBindings.transit_realtime.FeedMessage
-}>("/api/gtfs-realtime/rapid-bus-kl")
+}>("/api/gtfs-realtime/rapid-bus-kl", {
+  lazy: true,
+})
 
 const { data: routeShape, status: routeStatus } = await useFetch(
   "/api/staticInfo/rapid-bus-kl/shape/U222002",
   {
     method: "GET",
+    lazy: true,
   }
 )
 </script>
@@ -44,7 +49,7 @@ const { data: routeShape, status: routeStatus } = await useFetch(
                 v-model="search"
                 placeholder="Search bus"
                 :suggestions="
-                  data?.feed.entity?.map(
+                  busData?.feed.entity?.map(
                     (bus) => bus.vehicle?.trip?.routeId ?? 'Unknown'
                   )
                 "
@@ -59,9 +64,9 @@ const { data: routeShape, status: routeStatus } = await useFetch(
       </template>
     </Toolbar>
 
-    <!-- <LazyBusMap
-      v-if="!(status === 'pending')"
-      :bus-locations="data?.feed.entity?.map((bus) =>( {
+    <LazyBusMap
+      v-if="!(busStatus === 'pending')"
+      :bus-locations="busData?.feed.entity?.map((bus) =>({
           id: bus.id,
           name: bus.vehicle?.trip?.routeId ?? 'Unknown',
           coord: [
@@ -69,8 +74,8 @@ const { data: routeShape, status: routeStatus } = await useFetch(
             bus.vehicle?.position?.longitude
           ] as LatLngExpression
       }))"
-    /> -->
-    <BusRouteMap
+    />
+    <LazyBusRouteMap
       v-if="routeStatus !== 'pending'"
       :path="routeShape!.shape"
     />
