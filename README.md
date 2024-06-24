@@ -1,75 +1,24 @@
-# Nuxt 3 Minimal Starter
+# Bus Tracker using Prasarana's API
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Provided by [data.gov](https://developer.data.gov.my/realtime-api/)
 
-## Setup
+### Setup
 
-Make sure to install the dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+1. Clone the repository
+2. Install the required packages
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+bun i
 ```
 
-## Production
-
-Build the application for production:
+3. Add the .env file
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+MONGODB_URI=your_mongodb_uri
 ```
 
-Locally preview production build:
+4. Run the server
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+bun dev
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
