@@ -1,5 +1,5 @@
 import GtfsRTBindings from "gtfs-realtime-bindings"
-import { categorySchema } from "@@/server/schemas/route.schema"
+import { categorySchema } from "~~/server/schemas/route.schema"
 
 export default defineEventHandler(async (event) => {
   const params = await getValidatedRouterParams(event, categorySchema.parse)

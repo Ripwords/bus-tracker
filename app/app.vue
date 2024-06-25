@@ -2,18 +2,35 @@
 import type GtfsRTBindings from "gtfs-realtime-bindings"
 
 const sidebar = ref(false)
+const selectedService = ref<Services>("rapid-bus-kl")
 const search = ref("")
 
-const { data } = await useFetch<{
+const { data: busData } = await useFetch<{
   feed: GtfsRTBindings.transit_realtime.FeedMessage
-}>("/api/gtfs-realtime/rapid-bus-kl")
+}>("/api/gtfs-realtime/rapid-bus-kl", {
+  lazy: true,
+})
 
 const { data: routeShape, status: routeStatus } = await useFetch(
-  "/api/staticInfo/rapid-bus-kl/shape/U222002",
+  `/api/staticInfo/${selectedService.value}/shape/P001001`,
   {
     method: "GET",
+    lazy: true,
   }
 )
+
+const { data: routeShape2, status: routeStatus2 } = await useFetch(
+  `/api/staticInfo/${selectedService.value}/shape/P001002`,
+  {
+    method: "GET",
+    lazy: true,
+  }
+)
+
+await useFetch(`/api/staticInfo/${selectedService.value}/route/222`, {
+  method: "GET",
+  lazy: true,
+})
 </script>
 
 <template>
@@ -44,7 +61,7 @@ const { data: routeShape, status: routeStatus } = await useFetch(
                 v-model="search"
                 placeholder="Search bus"
                 :suggestions="
-                  data?.feed.entity?.map(
+                  busData?.feed.entity?.map(
                     (bus) => bus.vehicle?.trip?.routeId ?? 'Unknown'
                   )
                 "
@@ -59,20 +76,14 @@ const { data: routeShape, status: routeStatus } = await useFetch(
       </template>
     </Toolbar>
 
-    <!-- <LazyBusMap
-      v-if="!(status === 'pending')"
-      :bus-locations="data?.feed.entity?.map((bus) =>( {
-          id: bus.id,
-          name: bus.vehicle?.trip?.routeId ?? 'Unknown',
-          coord: [
-            bus.vehicle?.position?.latitude, 
-            bus.vehicle?.position?.longitude
-          ] as LatLngExpression
-      }))"
-    /> -->
-    <BusRouteMap
+    <LazyBusRouteMap
       v-if="routeStatus !== 'pending'"
       :path="routeShape!.shape"
+    />
+
+    <LazyBusRouteMap
+      v-if="routeStatus2 !== 'pending'"
+      :path="routeShape2!.shape"
     />
   </div>
 </template>
